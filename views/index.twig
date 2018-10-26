@@ -5,11 +5,10 @@
 
   <ul>
     {% for treatment in treatments %}
-      <li>{{ treatment.patient|e }} | {{ treatment.doctor }} | {{ treatment.date }}</li>
+      <li><a href="/patients/{{ treatment.patient_id }}">{{ treatment.patient|e }}</a> |
+          <a href="/doctors/{{ treatment.doctor_id }}">{{ treatment.doctor }}</a> |
+          <a href="/treatments/{{ treatment.treatment_id }}">{{ treatment.date }}</a></li>
     {% endfor %}
   </ul>
 
-
-  {#<datetime-picker native-on-mobile></datetime-picker>#}
-  <add-button color="blue"></add-button>
 {% endblock %}

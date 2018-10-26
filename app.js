@@ -6,7 +6,10 @@ let createError = require('http-errors'),
   db = require('./db'),
 
   indexRouter = require('./routes/index'),
-  usersRouter = require('./routes/users'),
+  patientsRouter = require('./routes/patients'),
+  doctorsRouter = require('./routes/doctors'),
+  medsRouter = require('./routes/meds'),
+  treatmentRouter = require('./routes/treatments'),
   app = express();
 
 
@@ -26,7 +29,10 @@ app.use((req, res, next) => {
 });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/patients', patientsRouter);
+app.use('/doctors', doctorsRouter);
+app.use('/meds', medsRouter);
+app.use('/treatments', treatmentRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -1,0 +1,17 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <h1>{{title}}</h1>
+
+    <ul>
+        <ul>
+            {% for treatment in treatments %}
+                <li><a href="/treatments/{{ treatment.treatment_id }}">{{ treatment.date }} | {{ treatment.doctor }}</a></li>
+            {% endfor %}
+        </ul>
+    </ul>
+
+
+    {#<datetime-picker native-on-mobile></datetime-picker>#}
+    <add-button color="blue"></add-button>
+{% endblock %}

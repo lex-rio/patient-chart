@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', (req, res, next) => {
   // console.log('------------------------------BEFORE------------------------------');
-  req.db.all(`SELECT datetime(treatment.date, 'unixepoch') date, patient.name patient, doctor.name doctor 
+  req.db.all(`SELECT treatment.*, datetime(treatment.date, 'unixepoch') date, patient.name patient, doctor.name doctor 
               FROM treatment 
               JOIN patient USING(patient_id)
               JOIN doctor USING(doctor_id);`, [], (err, rows) => {
