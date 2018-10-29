@@ -6,3 +6,23 @@ body {
 a {
   color: #00B7FF;
 }
+
+.homeopathy {
+  color: red;
+}
+
+li {
+  display: block;
+}
+
+form *:invalid {
+  background-color: #ffdddd;
+}
+
+form input {
+  border-width: 1px;
+}
+
+form input:required {
+  border-color: #800000;
+}

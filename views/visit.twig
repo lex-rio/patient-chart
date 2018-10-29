@@ -1,0 +1,23 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+
+    <div>
+        <a href="/doctors/{{ visit.doctor_id }}">{{ visit.doctor }}</a> visited
+        <a href="/patients/{{ visit.patient_id }}">{{ visit.patient }}</a>
+    </div>
+    <div>
+        diagnosis: <b>{{ visit.diagnosis }}</b>
+    </div>
+
+    <ul>
+        {% for med in meds %}
+            <li>
+                <a class="{{ med.is_homeopathy ? 'homeopathy' : '' }}" href="/meds/{{ med.meds_id }}">
+                    {{ med.meds_name }}
+                </a> | {{ med.instructions }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

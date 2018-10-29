@@ -37,23 +37,22 @@ window.customElements.define('patient-chart', class extends HTMLElement {
 window.customElements.define('add-button', class extends HTMLElement {
   constructor() {
     super();
-
-    let color = this.getAttribute('color');
-
-    this.addEventListener('click', this.handleClick);
-
-    this.innerHTML = `
-      <style>
-          div {
+    const shadowRoot = this.attachShadow({mode: 'open'});
+    let color = this.getAttribute('color') || 'red';
+    let style = document.createElement('style');
+    let el = document.createElement('div');
+    el.addEventListener('click', this.handleClick);
+    el.textContent = 'ADD';
+    style.textContent = `div {
               border-radius: 30px;
               border: none;
               background-color: ${color};
               font-size: 56px;
               text-align: center;
-          }
-      </style>
-      <div>ADD</div>
-    `;
+          }`;
+
+    shadowRoot.appendChild(style);
+    shadowRoot.appendChild(el);
   }
 
   handleClick(e) {

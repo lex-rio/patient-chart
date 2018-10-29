@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
@@ -8,19 +8,30 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   req.db.all(
-    `SELECT patient.*, treatment.treatment_id, treatment.date, doctor.name doctor
-    FROM patient
-    JOIN treatment USING(patient_id)
+    `SELECT meds.*, 
+            visit.visit_id, 
+            datetime(visit.date, 'unixepoch') date,
+            doctor.name doctor,
+            doctor_id
+    FROM meds
+    JOIN visit_meds USING(meds_id)
+    JOIN visit USING(visit_id)
     JOIN doctor USING(doctor_id)
-    WHERE patient.patient_id = ?;`,
+    WHERE meds.meds_id = ?;`,
     [req.params.id],
     (err, rows) => {
       if (err) {
         throw err;
       }
-
-      res.render('user', {title: `${rows[0].name} details:`, patient: rows[0], treatments: rows});
-      console.log(rows);
+      if (rows.length !== 0) {
+        res.render('meds', {
+          title: `${rows[0].name} details:`,
+          med: rows[0],
+          visits: rows
+        });
+      } else {
+        next(createError(404));
+      }
     }
   );
 });

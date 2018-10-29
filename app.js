@@ -9,7 +9,7 @@ let createError = require('http-errors'),
   patientsRouter = require('./routes/patients'),
   doctorsRouter = require('./routes/doctors'),
   medsRouter = require('./routes/meds'),
-  treatmentRouter = require('./routes/treatments'),
+  visitRouter = require('./routes/visits'),
   app = express();
 
 
@@ -32,7 +32,7 @@ app.use('/', indexRouter);
 app.use('/patients', patientsRouter);
 app.use('/doctors', doctorsRouter);
 app.use('/meds', medsRouter);
-app.use('/treatments', treatmentRouter);
+app.use('/visits', visitRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
