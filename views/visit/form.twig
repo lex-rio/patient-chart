@@ -1,0 +1,30 @@
+<form action="visits/create" method="post">
+    <div>
+        <label for="datetime">date and time</label>
+        <input type="datetime-local" name="datetime" id="datetime">
+    </div>
+    <div>
+        <label for="doctor">Doctor</label>
+        <input type="text" name="doctor" list="doctors" id="doctor" required>
+    </div>
+    <datalist id="doctors">
+        {% for doctor in doctors %}
+            <option value="{{ doctor.name }}">
+        {% endfor %}
+    </datalist>
+    <div>
+        <label for="patient">Patient</label>
+        <input type="text" name="patient" list="patients" id="patient" required>
+    </div>
+    <datalist id="patients">
+        {% for patient in patients %}
+            <option value="{{ patient.name }}">
+        {% endfor %}
+    </datalist>
+    <div>
+        <label for="diagnosis">Diagnosis</label>
+        <input type="text" name="diagnosis" id="diagnosis">
+    </div>
+
+    <input type="submit" value="submit">
+</form>

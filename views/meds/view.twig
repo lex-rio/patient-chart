@@ -1,0 +1,16 @@
+{% extends '../layout.twig' %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+
+    <p>{{ med.description }}</p>
+
+    <ul>
+        {% for visit in visits %}
+            <li>
+                <a href="/visits/{{ visit.visit_id }}">{{ visit.date|date('Y-m-d H:i:s') }}</a> |
+                <a href="/doctors/{{ visit.doctor_id }}">{{ visit.doctor }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

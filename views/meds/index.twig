@@ -1,0 +1,14 @@
+{% extends '../layout.twig' %}
+
+{% block body %}
+    <h1>{{title}}</h1>
+
+    <ul>
+        {% for med in meds %}
+            <li><a href="/meds/{{ med.meds_id }}" title="{{ med.dosage_form }}">{{ med.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <add-button color="blue"></add-button>
+
+{% endblock %}

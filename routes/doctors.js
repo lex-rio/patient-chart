@@ -1,49 +1,43 @@
-let createError = require('http-errors');
 let express = require('express');
 let router = express.Router();
 
-router.get('/', (req, res, next) => {
-  req.db.all(`SELECT * FROM doctor;`, [],
-    (err, rows) => {
-      if (err) {
-        throw err;
-      }
-
-      res.render('doctor/index', {
-        title: `Doctors list:`,
-        doctors: rows
-      });
-    }
-  );
+router.get('/', (req, res) => {
+  req.db.Doctor.findAll({
+    attributes: ['id', 'name', 'phone', 'specialization']
+  }).then(result => {
+    console.log(result);
+    res.render('doctor/index', {
+      title: 'Doctors list:',
+      doctors: result
+    });
+  });
 });
 
-router.get('/:id', (req, res, next) => {
-  req.db.all(
-    `SELECT doctor.*, 
-            datetime(visit.date, 'unixepoch') date,
-            visit.visit_id,
-            patient.name patient,
-            patient_id
-    FROM doctor
-    LEFT JOIN visit USING(doctor_id)
-    LEFT JOIN patient USING(patient_id)
-    WHERE doctor.doctor_id = ?;`,
-    [req.params.id],
-    (err, rows) => {
-      if (err) {
-        throw err;
-      }
-      if (rows.length !== 0) {
-        res.render('doctor/view', {
-          title: `${rows[0].name} details:`,
-          doctor: rows[0],
-          visits: rows
-        });
-      } else {
-        next(createError(404));
-      }
-    }
-  );
+router.get('/:id', (req, res) => {
+  req.db.Doctor.findAll({
+    include: [{
+      model: req.db.Visit
+    }],
+    where: {id: req.params.id}
+  }).then(result => {
+    // console.log(result);
+    res.render('doctor/view', {
+      title: 'Doctors list:',
+      doctor: result[0],
+      visits: result[0].Visits
+    });
+  });
+});
+
+router.post('/create', (req, res) => {
+  req.db.Doctor.create({
+    name: req.body.fio,
+    phone: req.body.phone,
+    specialization: req.body.specialization,
+    // birthday: req.body.birth
+  }).then(_ => {
+    res.redirect('/doctors');
+  });
 });
 
 module.exports = router;

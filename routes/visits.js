@@ -1,4 +1,3 @@
-let createError = require('http-errors');
 let express = require('express');
 let router = express.Router();
 
@@ -16,38 +15,34 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  req.db.all(
-    `SELECT patient.patient_id,
-            patient.name patient,
-            datetime(visit.date, 'unixepoch') date,
-            diagnosis,
-            doctor.doctor_id,
-            doctor.name doctor,
-            visit_meds.instructions,
-            meds.*,
-            meds.name meds_name
-    FROM visit
-    JOIN patient USING(patient_id)
-    JOIN doctor USING(doctor_id)
-    LEFT JOIN visit_meds USING (visit_id)
-    LEFT JOIN meds USING (meds_id)
-    WHERE visit.visit_id = ?;`,
-    [req.params.id],
-    (err, rows) => {
-      if (err) {
-        throw err;
-      }
-      if (rows.length !== 0) {
-        res.render('visit', {
-          title: `visit at ${rows[0].date}:`,
-          visit: rows[0],
-          meds: rows
-        });
-      } else {
-        next(createError(404));
-      }
+  req.db.Visit.findById(req.params.id).then(result => {
+    res.render('visit/view', {
+      title: `visit at ${result.date}:`,
+      visit: result,
+      meds: result.meds
+    });
+  });
+});
+
+router.post('/create', (req, res) => {
+  Promise.all([
+    req.db.Doctor.findOne({ where: { name: req.body.doctor } }),
+    req.db.Patient.findOne({ where: { name: req.body.patient } })
+  ]).then(([doctor, patient]) => {
+    if (!doctor.id) {
+      // create doctor
     }
-  );
+    if (!patient.id) {
+      // create patient
+    }
+    req.db.Visit.create({
+      diagnosis: req.body.diagnosis,
+      DoctorId: doctor.id,
+      PatientId: patient.id,
+    }).then(_ => {
+      res.redirect('/');
+    });
+  });
 });
 
 module.exports = router;

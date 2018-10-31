@@ -5,25 +5,15 @@
 
     <ul>
         {% for patient in patients %}
-            <li><a href="/patients/{{ patient.patient_id }}">{{ patient.name }}</a></li>
+            <li>
+                <a href="/patients/{{ patient.id }}">
+                    {{ patient.name }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 
-    <form action="patients" method="post">
-        <div>
-            <label for="name">Name</label>
-            <input type="text" name="name" required="required" id="name">
-        </div>
-        <div>
-            <label for="photo">Photo</label>
-            <input type="text" name="photo" id="photo">
-        </div>
-        <div>
-            <label for="birth">Birth</label>
-            <input type="datetime-local" value="" name="birth" id="birth">
-        </div>
-        <input type="submit" value="submit">
-    </form>
+    {% include 'patient/form.twig' %}
 
     {#<datetime-picker native-on-mobile></datetime-picker>#}
     <add-button color="blue"></add-button>

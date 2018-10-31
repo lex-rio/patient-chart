@@ -3,7 +3,7 @@ let createError = require('http-errors'),
   path = require('path'),
   cookieParser = require('cookie-parser'),
   logger = require('morgan'),
-  db = require('./db'),
+  db = require('./models'),
 
   indexRouter = require('./routes/index'),
   patientsRouter = require('./routes/patients'),

@@ -1,21 +1,24 @@
 let express = require('express');
 let router = express.Router();
 
-/* GET home page. */
-router.get('/', (req, res, next) => {
-  req.db.all(`SELECT  visit.*, 
-                      datetime(visit.date, 'unixepoch') date, 
-                      patient.name patient, 
-                      doctor.name doctor 
-              FROM visit 
-              JOIN patient USING(patient_id)
-              JOIN doctor USING(doctor_id);`, [], (err, rows) => {
-    if (err) {
-      throw err;
-    }
+router.get('/', (req, res) => {
 
-    res.render('index', {title: 'Visits log', visits: rows});
-  });
+  try {
+    Promise.all([
+      req.db.Visit.findAll(),
+      req.db.Doctor.findAll(),
+      req.db.Patient.findAll()
+    ]).then(([visits, doctors, patients]) => {
+      res.render('visit/index', {
+        title: 'Visits log',
+        visits: visits,
+        doctors: doctors,
+        patients: patients
+      });
+    });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
 
 });
 

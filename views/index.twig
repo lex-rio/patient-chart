@@ -3,20 +3,4 @@
 {% block body %}
   <h1>{{title}}</h1>
 
-  <ul>
-    {% for visit in visits %}
-      <li>
-          <a href="/patients/{{ visit.patient_id }}">{{ visit.patient|e }}</a> |
-          <a href="/doctors/{{ visit.doctor_id }}">{{ visit.doctor }}</a> |
-          <a href="/visits/{{ visit.visit_id }}">{{ visit.date }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-
-    <form action="">
-        <input type="text" name="">
-    </form>
-    
-    <add-button color="blue"></add-button>
-
 {% endblock %}

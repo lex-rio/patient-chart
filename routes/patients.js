@@ -2,64 +2,42 @@ let createError = require('http-errors');
 let express = require('express');
 let router = express.Router();
 
-router.get('/', (req, res, next) => {
-  req.db.all(`SELECT * FROM patient;`, [],
-    (err, rows) => {
-      if (err) {
-        throw err;
-      }
-
-      res.render('patient/index', {
-        title: `Patients list:`,
-        patients: rows
-      });
-    }
-  );
+router.get('/', (req, res) => {
+  req.db.Patient.findAll({
+    attributes: ['id', 'name', 'birthday']
+  }).then(result => {
+    console.log(result);
+    res.render('patient/index', {
+      title: 'Patients list:',
+      patients: result
+    });
+  });
 });
 
 router.get('/:id', (req, res, next) => {
-  req.db.all(
-    `SELECT patient.*, 
-            visit.visit_id, 
-            datetime(visit.date, 'unixepoch') date, 
-            doctor.name doctor,
-            doctor_id
-    FROM patient
-    LEFT JOIN visit USING(patient_id)
-    LEFT JOIN doctor USING(doctor_id)
-    WHERE patient.patient_id = ?;`,
-    [req.params.id],
-    (err, rows) => {
-      if (err) {
-        throw err;
-      }
-      if (rows.length !== 0) {
-        res.render('patient/view', {
-          title: `${rows[0].name} details:`,
-          patient: rows[0],
-          visits: rows
-        });
-      } else {
-        next(createError(404));
-      }
-    }
-  );
+  req.db.Patient.findAll({
+    include: [{
+      model: req.db.Visit
+    }],
+    where: {id: req.params.id}
+  }).then(result => {
+    // console.log(result[0].Visits);
+    let patient = result[0];
+    res.render('patient/view', {
+      title: `${patient.name} details:`,
+      patient: patient,
+      visits: patient.Visits
+    });
+  });
 });
 
-router.post('/', (req, res, next) => {
-  console.log(req.body);
-  req.db.run(
-    `INSERT INTO patient (name, photo, birthday) VALUES (?,?,?)`,
-    [req.body.name, req.body.photo, req.body.birth],
-    err => {
-      if (err) {
-        return console.log(err.message);
-      }
-    }
-  );
-  res.render('patient/index', {
-    title: `Patients list:`,
-    patients: 1
+router.post('/create', (req, res) => {
+  req.db.Patient.create({
+    name: req.body.name,
+    photo: req.body.photo,
+    // birthday: req.body.birth
+  }).then(_ => {
+    res.redirect('/patients');
   });
 });
 

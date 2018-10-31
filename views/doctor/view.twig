@@ -9,11 +9,10 @@
 
     <ul>
         {% for visit in visits %}
-            <li><a href="/visits/{{ visit.visit_id }}">{{ visit.date }}</a> | <a href="/patients/{{ visit.patient_id }}">{{ visit.patient }}</a></li>
+            <li>
+                <a href="/visits/{{ visit.id }}">{{ visit.date|date('Y-m-d H:i:s') }}</a> |
+                <a href="/patients/{{ visit.PatientId }}">{{ visit.PatientId }}</a>
+            </li>
         {% endfor %}
     </ul>
-
-
-    {#<datetime-picker native-on-mobile></datetime-picker>#}
-    {#<add-button color="blue"></add-button>#}
 {% endblock %}

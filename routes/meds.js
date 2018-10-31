@@ -10,7 +10,7 @@ router.get('/:id', (req, res, next) => {
   req.db.all(
     `SELECT meds.*, 
             visit.visit_id, 
-            datetime(visit.date, 'unixepoch') date,
+            visit.date,
             doctor.name doctor,
             doctor_id
     FROM meds
@@ -24,7 +24,7 @@ router.get('/:id', (req, res, next) => {
         throw err;
       }
       if (rows.length !== 0) {
-        res.render('meds', {
+        res.render('meds/view', {
           title: `${rows[0].name} details:`,
           med: rows[0],
           visits: rows

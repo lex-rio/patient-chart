@@ -1,11 +1,11 @@
-{% extends 'layout.twig' %}
+{% extends '../layout.twig' %}
 
 {% block body %}
     <h1>{{ title }}</h1>
 
     <div>
-        <a href="/doctors/{{ visit.doctor_id }}">{{ visit.doctor }}</a> visited
-        <a href="/patients/{{ visit.patient_id }}">{{ visit.patient }}</a>
+        <a href="/doctors/{{ visit.DoctorId }}">{{ visit.DoctorId }}</a> visited
+        <a href="/patients/{{ visit.PatientId }}">{{ visit.PatientId }}</a>
     </div>
     <div>
         diagnosis: <b>{{ visit.diagnosis }}</b>
