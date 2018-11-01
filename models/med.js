@@ -1,14 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Meds = sequelize.define('Meds', {
+  const Med = sequelize.define('Med', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     name: DataTypes.STRING,
     atx: DataTypes.STRING,
     dosage_form: DataTypes.STRING,
     description: DataTypes.STRING,
     is_homeopathy: DataTypes.TINYINT
   }, {});
-  Meds.associate = models => {
-    // Meds.belongsToMany(models.Visit, { through: UserProject });
+  Med.associate = models => {
+    models.Med.belongsToMany(models.Visit, {through: models.VisitMed});
   };
-  return Meds;
+  return Med;
 };

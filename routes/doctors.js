@@ -14,12 +14,16 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   req.db.Doctor.findAll({
     include: [{
-      model: req.db.Visit
+      model: req.db.Visit,
+      as: 'Visits',
+      include: [{
+        model: req.db.Patient
+      }]
     }],
     where: {id: req.params.id}
   }).then(result => {
     res.render('doctor/view', {
-      title: 'Doctors list:',
+      title: `Doctor details:`,
       doctor: result[0],
       visits: result[0].Visits
     });

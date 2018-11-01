@@ -5,11 +5,19 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  req.db.Visit.findByPk(req.params.id).then(result => {
+  req.db.Visit.findAll({
+    include: [
+      { model: req.db.Doctor },
+      { model: req.db.Patient },
+      { model: req.db.Med }
+    ],
+    where: {id: req.params.id}
+  }).then(result => {
+    let visit = result[0];
     res.render('visit/view', {
-      title: `visit at ${result.date}:`,
-      visit: result,
-      meds: result.meds
+      title: `visit at ${visit.date}:`,
+      visit: visit,
+      meds: visit.Meds
     });
   });
 });
