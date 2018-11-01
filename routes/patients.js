@@ -1,4 +1,3 @@
-let createError = require('http-errors');
 let express = require('express');
 let router = express.Router();
 
@@ -14,14 +13,13 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', (req, res) => {
   req.db.Patient.findAll({
     include: [{
       model: req.db.Visit
     }],
     where: {id: req.params.id}
   }).then(result => {
-    // console.log(result[0].Visits);
     let patient = result[0];
     res.render('patient/view', {
       title: `${patient.name} details:`,
