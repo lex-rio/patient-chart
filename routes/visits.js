@@ -10,12 +10,12 @@ let dosageForms = {
   6: 'спрей'
 };
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   res.send('respond with a resource');
 });
 
-router.get('/:id', (req, res, next) => {
-  req.db.Visit.findById(req.params.id).then(result => {
+router.get('/:id', (req, res) => {
+  req.db.Visit.findByPk(req.params.id).then(result => {
     res.render('visit/view', {
       title: `visit at ${result.date}:`,
       visit: result,
