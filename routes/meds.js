@@ -5,8 +5,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  req.db.Meds.findByPk(req.params.id).then(result => {
-    res.render('visit/view', {
+  req.db.Med.findByPk(req.params.id).then(result => {
+    res.render('meds/view', {
       title: `visit at ${result.date}:`,
       visit: result,
       meds: result.meds

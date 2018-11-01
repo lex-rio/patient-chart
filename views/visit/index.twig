@@ -8,8 +8,9 @@
     {% for visit in visits %}
       <li>
           <a href="/visits/{{ visit.id }}">{{ visit.date|date('Y-m-d H:i:s') }}</a> |
-          <a href="/patients/{{ visit.PatientId }}">{{ visit.PatientId|e }}</a> |
-          <a href="/doctors/{{ visit.DoctorId }}">{{ visit.DoctorId|e }}</a>
+          <a href="/patients/{{ visit.PatientId }}">{{ visit.Patient.name|e }}</a> |
+          <a href="/doctors/{{ visit.DoctorId }}">{{ visit.Doctor.name|e }}</a>
+          {{ visit.diagnosis }}
       </li>
     {% endfor %}
     {% endif %}

@@ -23,24 +23,24 @@ module.exports = {
         type: Sequelize.DATE
       },
       DoctorId: {
-        type: Sequelize.INTEGER/*,
+        type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
         references: {
-          model: 'Doctor',
+          model: 'Doctors',
           key: 'id'
-        }*/
+        }
       },
       PatientId: {
-        type: Sequelize.INTEGER/*,
+        type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
         references: {
           model: 'Patients',
           key: 'id'
-        }*/
+        }
       }
-    }).then(_ => queryInterface.addConstraint('Visits', ['DoctorId'], {
+    })/*.then(_ => queryInterface.addConstraint('Visits', ['DoctorId'], {
       type: 'foreign key',
       name: 'fk_doctor',
       references: {
@@ -58,7 +58,7 @@ module.exports = {
       },
       onDelete: 'cascade',
       onUpdate: 'cascade'
-    }))),
+    })))*/,
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Visits');
   }
