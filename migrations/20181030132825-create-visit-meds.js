@@ -19,7 +19,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      visit_id: {
+      VisitId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
@@ -28,7 +28,7 @@ module.exports = {
           key: 'id'
         }
       },
-      meds_id: {
+      MedsId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
