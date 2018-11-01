@@ -1,14 +1,4 @@
-let express = require('express');
-let router = express.Router();
-
-let dosageForms = {
-  1: 'таблетки',
-  2: 'свечи',
-  3: 'суспензия',
-  4: 'порошок',
-  5: 'жидкость',
-  6: 'спрей'
-};
+let router = require('express').Router();
 
 router.get('/', (req, res) => {
   res.send('respond with a resource');
@@ -39,6 +29,7 @@ router.post('/create', (req, res) => {
       diagnosis: req.body.diagnosis,
       DoctorId: doctor.id,
       PatientId: patient.id,
+      date: new Date(req.body.datetime)
     }).then(_ => {
       res.redirect('/');
     });

@@ -1,11 +1,9 @@
-let express = require('express');
-let router = express.Router();
+let router = require('express').Router();
 
 router.get('/', (req, res) => {
   req.db.Doctor.findAll({
     attributes: ['id', 'name', 'phone', 'specialization']
   }).then(result => {
-    console.log(result);
     res.render('doctor/index', {
       title: 'Doctors list:',
       doctors: result
@@ -20,7 +18,6 @@ router.get('/:id', (req, res) => {
     }],
     where: {id: req.params.id}
   }).then(result => {
-    // console.log(result);
     res.render('doctor/view', {
       title: 'Doctors list:',
       doctor: result[0],
@@ -34,7 +31,6 @@ router.post('/create', (req, res) => {
     name: req.body.fio,
     phone: req.body.phone,
     specialization: req.body.specialization,
-    // birthday: req.body.birth
   }).then(_ => {
     res.redirect('/doctors');
   });
