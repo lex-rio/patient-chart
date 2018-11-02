@@ -12,10 +12,9 @@
             </li>
         {% endfor %}
     </ul>
+    <add-button></add-button>
 
-    {% include 'doctor/form.twig' %}
-
-    {#<datetime-picker native-on-mobile></datetime-picker>#}
-    <add-button color="blue"></add-button>
-
+    <dialog id="form">
+        {% include 'visit/form.twig' %}
+    </dialog>
 {% endblock %}

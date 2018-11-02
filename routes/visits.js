@@ -38,8 +38,8 @@ router.post('/create', (req, res) => {
       DoctorId: doctor.id,
       PatientId: patient.id,
       date: new Date(req.body.datetime)
-    }).then(_ => {
-      res.redirect('/');
+    }).then(visit => {
+      res.redirect(`/visits/${visit.null}`);
     });
   });
 });

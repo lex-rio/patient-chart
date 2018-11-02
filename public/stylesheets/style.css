@@ -17,12 +17,35 @@ li {
 
 form *:invalid {
   background-color: #ffdddd;
+  border-left-color: salmon;
+}
+
+form *:valid {
+  border-left-color: palegreen;
 }
 
 form input {
   border-width: 1px;
+  border-left-width: 7px;
+  width: 100%;
+  font-family: system-ui;
+  font-size: 2em;
+  margin-bottom: 5px;
+  border-radius: 7px;
 }
 
-form input:required {
-  border-color: #800000;
+form input[type='submit'] {
+  border-radius: 30px;
+  border: none;
+  background-color: steelblue;
+  font-size: 56px;
+  text-align: center;
+  width: 100%;
+}
+
+add-button {
+  position: fixed;
+  bottom: 30px;
+  width: 100%;
+  left: 0px;
 }

@@ -15,9 +15,10 @@
     {% endfor %}
     {% endif %}
   </ul>
+    <add-button></add-button>
 
-    {% include 'visit/form.twig' %}
-    
-    <add-button color="blue"></add-button>
+    <dialog id="form">
+        {% include 'visit/form.twig' %}
+    </dialog>
 
 {% endblock %}
