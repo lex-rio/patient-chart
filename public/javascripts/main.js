@@ -53,7 +53,7 @@ window.customElements.define('add-button', class extends HTMLElement {
           font-size: 56px;
           text-align: center;
           margin: 0 auto;
-          padding: 6px 8px 0px;
+          padding: 0px 8px;
           width: 50px;
           cursor: pointer;
       }`;
