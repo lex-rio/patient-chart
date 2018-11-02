@@ -38,24 +38,31 @@ window.customElements.define('add-button', class extends HTMLElement {
   constructor() {
     super();
     const shadowRoot = this.attachShadow({mode: 'open'});
-    let color = this.getAttribute('color') || 'red';
+    let color = this.getAttribute('color') || '#ffdddd';
     let style = document.createElement('style');
     let el = document.createElement('div');
+    el.innerHTML = '<span>+</span>';
     el.addEventListener('click', this.handleClick);
-    el.textContent = 'ADD';
-    style.textContent = `div {
-              border-radius: 30px;
-              border: none;
-              background-color: ${color};
-              font-size: 56px;
-              text-align: center;
-          }`;
+
+    style.textContent = `
+      span {
+          display: block;
+          border: 2px solid ${color};
+          border-radius: 35px;
+          color: tomato;
+          font-size: 56px;
+          text-align: center;
+          margin: 0 auto;
+          padding: 6px 8px 0px;
+          width: 50px;
+          cursor: pointer;
+      }`;
 
     shadowRoot.appendChild(style);
     shadowRoot.appendChild(el);
   }
 
   handleClick(e) {
-    console.log(e);
+    document.getElementById('form').showModal();
   }
 });
