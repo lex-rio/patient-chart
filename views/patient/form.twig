@@ -1,12 +1,12 @@
-<form action="patients/create" method="post">
+<form action="/patients/{{ patient ? patient.id ~ 'update' : 'create' }}" method="post">
     <div>
-        <input type="text" name="name" required="required" id="name" placeholder="Name">
+        <input type="text" name="name" required="required" id="name" placeholder="Name" value="{{ patient.name }}">
     </div>
     <div>
-        <input type="URL" name="photo" id="photo" placeholder="URL photo">
+        <input type="URL" name="photo" id="photo" placeholder="URL photo" value="{{ patient.photo }}">
     </div>
     <div>
-        <input type="datetime-local" value="" name="birth" id="birth" placeholder="date of birth">
+        <input type="datetime-local" name="birth" id="birth" placeholder="date of birth" value="{{ patient.birthday|date("Y-m-dTH:m") }}">
     </div>
-    <input type="submit" value="ADD">
+    <input type="submit" value="{{ patient ? 'UPDATE' : 'CREATE' }}">
 </form>

@@ -15,4 +15,13 @@
             </li>
         {% endfor %}
     </ul>
+    <custom-button color="red"></custom-button>
+    <custom-button color="brown" func="edit"></custom-button>
+
+    <dialog id="form-add">
+        {% include 'visit/form.twig' %}
+    </dialog>
+    <dialog id="form-edit">
+        {% include 'patient/form.twig' %}
+    </dialog>
 {% endblock %}

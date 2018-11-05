@@ -1,0 +1,15 @@
+<form action="/meds/{{ med ? med.id ~ 'update' : 'create' }}" method="post">
+    <div>
+        <input type="text" name="meds" list="meds" id="meds" required placeholder="Medicine">
+    </div>
+    <datalist id="meds">
+        {% for medicine in meds %}
+            <option value="{{ medicine.name }}">
+        {% endfor %}
+    </datalist>
+    <div>
+        <input type="text" name="instructions" id="instructions" placeholder="Instructions">
+    </div>
+
+    <input type="submit" value="{{ med ? 'UPDATE' : 'CREATE' }}">
+</form>

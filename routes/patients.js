@@ -36,8 +36,19 @@ router.post('/create', (req, res) => {
     name: req.body.name,
     photo: req.body.photo,
     birthday: new Date(req.body.birth)
-  }).then(_ => {
-    res.redirect('/patients');
+  }).then(patient => {
+    res.redirect(`/patients/${patient.null}`);
+  });
+});
+
+router.post('/:id/update', (req, res) => {
+  req.db.Patient.findByPk(req.params.id).then(patient => {
+    patient.name = req.body.name;
+    patient.photo = req.body.photo;
+    patient.birthday = req.body.birthday;
+    patient.save().then(_ => {
+      res.redirect(`/patients/${req.params.id}`);
+    })
   });
 });
 

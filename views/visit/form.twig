@@ -1,9 +1,9 @@
-<form action="visits/create" method="post">
+<form action="/visits/{{ visit ? visit.id ~ 'update' : 'create' }}" method="post">
     <div>
         <input type="datetime-local" name="datetime" id="datetime" placeholder="Visit date and time">
     </div>
     <div>
-        <input type="text" name="doctor" list="doctors" id="doctor" required placeholder="Doctor">
+        <input type="text" name="doctor" list="doctors" id="doctor" required placeholder="Doctor" value="{{ doctor.name }}">
     </div>
     <datalist id="doctors">
         {% for doctor in doctors %}
@@ -11,7 +11,7 @@
         {% endfor %}
     </datalist>
     <div>
-        <input type="text" name="patient" list="patients" id="patient" required placeholder="Patient">
+        <input type="text" name="patient" list="patients" id="patient" required placeholder="Patient" value="{{ patient.name }}">
     </div>
     <datalist id="patients">
         {% for patient in patients %}
@@ -19,8 +19,8 @@
         {% endfor %}
     </datalist>
     <div>
-        <input type="text" name="diagnosis" id="diagnosis" placeholder="Diagnosis">
+        <input type="text" name="diagnosis" id="diagnosis" placeholder="Diagnosis" value="{{ visit.diagnosis }}">
     </div>
 
-    <input type="submit" value="ADD">
+    <input type="submit" value="{{ visit ? 'UPDATE' : 'CREATE' }}">
 </form>

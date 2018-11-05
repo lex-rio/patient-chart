@@ -1,12 +1,12 @@
-<form action="doctors/create" method="post">
+<form action="/doctors/{{ doctor ? doctor.id ~ '/update' : 'create' }}" method="post">
     <div>
-        <input type="text" name="fio" required="required" id="fio" placeholder="FIO">
+        <input type="text" name="fio" required="required" id="fio" placeholder="FIO" value="{{ doctor.name }}">
     </div>
     <div>
-        <input type="tel" name="phone" id="phone" placeholder="Cellphone number">
+        <input type="tel" name="phone" id="phone" placeholder="Cellphone number" value="{{ doctor.phone }}">
     </div>
     <div>
-        <input type="text" name="specialization" id="specialization" placeholder="Specialization">
+        <input type="text" name="specialization" id="specialization" placeholder="Specialization" value="{{ doctor.specialization }}">
     </div>
-    <input type="submit" value="ADD">
+    <input type="submit" value="{{ doctor ? 'UPDATE' : 'CREATE' }}">
 </form>

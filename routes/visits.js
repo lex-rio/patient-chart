@@ -17,6 +17,8 @@ router.get('/:id', (req, res) => {
     res.render('visit/view', {
       title: `visit at ${visit.date}:`,
       visit: visit,
+      doctor: visit.Doctor,
+      patient: visit.Patient,
       meds: visit.Meds
     });
   });
@@ -41,6 +43,17 @@ router.post('/create', (req, res) => {
     }).then(visit => {
       res.redirect(`/visits/${visit.null}`);
     });
+  });
+});
+
+router.post('/:id/update', (req, res) => {
+  req.db.Visit.findByPk(req.params.id).then(visit => {
+    visit.diagnosis = req.body.diagnosis;
+    visit.photo = req.body.photo;
+    visit.birthday = req.body.birthday;
+    visit.save().then(_ => {
+      res.redirect(`/patients/${req.params.id}`);
+    })
   });
 });
 

@@ -35,8 +35,19 @@ router.post('/create', (req, res) => {
     name: req.body.fio,
     phone: req.body.phone,
     specialization: req.body.specialization,
-  }).then(_ => {
-    res.redirect('/doctors');
+  }).then(doctor => {
+    res.redirect(`/doctors/${doctor.null}`);
+  });
+});
+
+router.post('/:id/update', (req, res) => {
+  req.db.Doctor.findByPk(req.params.id).then(doctor => {
+    doctor.name = req.body.fio;
+    doctor.phone = req.body.phone;
+    doctor.specialization = req.body.specialization;
+    doctor.save().then(_ => {
+      res.redirect(`/doctors/${req.params.id}`);
+    })
   });
 });
 
