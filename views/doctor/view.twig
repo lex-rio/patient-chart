@@ -11,7 +11,8 @@
         {% for visit in visits %}
             <li>
                 <a href="/visits/{{ visit.id }}">{{ visit.date|date('Y-m-d H:i:s') }}</a> |
-                <a href="/patients/{{ visit.Patient.id }}">{{ visit.Patient.name }}</a>
+                <a href="/patients/{{ visit.Patient.id }}">{{ visit.Patient.name }}</a> |
+                {{ visit.diagnosis }}
             </li>
         {% endfor %}
     </ul>
