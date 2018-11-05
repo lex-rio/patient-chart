@@ -5,10 +5,14 @@
 
     <ul>
         {% for med in meds %}
-            <li><a href="/meds/{{ med.meds_id }}" title="{{ med.dosage_form }}">{{ med.name }}</a></li>
+            <li><a href="/meds/{{ med.id }}" class="{{ med.is_homeopathy ? 'homeopathy' : '' }}" title="{{ med.dosage_form }}">{{ med.name }}</a></li>
         {% endfor %}
     </ul>
 
-    <add-button color="blue"></add-button>
+    <custom-button color="blue"></custom-button>
+
+    <dialog id="form-add">
+        {% include 'meds/form.twig' %}
+    </dialog>
 
 {% endblock %}

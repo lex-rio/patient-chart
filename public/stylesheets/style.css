@@ -49,10 +49,3 @@ dialog {
   top: 1%;
   border-width: 0px;
 }
-
-add-button {
-  position: fixed;
-  bottom: 30px;
-  width: 100%;
-  left: 0px;
-}
