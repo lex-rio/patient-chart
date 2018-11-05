@@ -47,6 +47,7 @@ dialog {
   width: 93%;
   height: 93%;
   top: 1%;
+  border-width: 0px;
 }
 
 add-button {

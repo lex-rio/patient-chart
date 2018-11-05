@@ -18,8 +18,8 @@ describe('models/index', _ => {
     expect(models.Visit).to.be.ok();
   });
 
-  it('returns the meds model', function () {
+  it('returns the med model', function () {
     let models = require('../../models');
-    expect(models.Meds).to.be.ok();
+    expect(models.Med).to.be.ok();
   });
 });

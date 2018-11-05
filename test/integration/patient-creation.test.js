@@ -5,11 +5,13 @@ var Bluebird = require('bluebird');
 var expect   = require('expect.js');
 var request  = require('supertest');
 
-describe('patient creation page', _ => {
+describe('patient creation page', function() {
 
-  before(_ => require('../../models').sequelize.sync());
+  before(function() {
+    return require('../../models').sequelize.sync()
+  });
   
-  beforeEach(_ => {
+  beforeEach(function() {
     this.models = require('../../models');
 
     return Bluebird.all([
@@ -18,11 +20,11 @@ describe('patient creation page', _ => {
     ]);
   });
 
-  it('loads correctly', done => {
+  it('loads correctly', function(done) {
     request(app).get('/').expect(200, done);
   });
 
-  it('lists a patient if there is one', done => {
+  it('lists a patient if there is one', function(done) {
     this.models.Patient.create({
       name: 'johndoe',
       photo: 'https://mega.nz/#!F9dwUAKR!yJsxWbdm7F4OhIiwmfQmk6g-eMpbbJU2yVkAbwkBFM4'
@@ -31,11 +33,11 @@ describe('patient creation page', _ => {
     })
   });
 
-  it('lists the tickets for the patient if available', done => {
-    this.models.Patient.create({ name: 'johndoe' }).then(user =>
-      this.models.Visit.create({ title: 'johndoe visit', PatientId: patient.id })
+  it('lists the visits for the patient if available', function(done) {
+    this.models.Patient.create({ name: 'johndoe' }).then(patient =>
+      this.models.Visit.create({ diagnosis: 'otitus', PatientId: patient.id })
     ).then(_ => {
-      request(app).get('/').expect(/johndoe visit/, done);
+      request(app).get('/').expect(/otitus/, done);
     });
   });
 });
