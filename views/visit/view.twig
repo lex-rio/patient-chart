@@ -12,10 +12,10 @@
     </div>
 
     <ul>
-        {% for med in meds %}
+        {% for med in visitMeds %}
             <li>
-                <a class="{{ med.is_homeopathy ? 'homeopathy' : '' }}" href="/meds/{{ med.id }}">
-                    {{ med.name }}
+                <a class="{{ med.Med.is_homeopathy ? 'homeopathy' : '' }}" href="/meds/{{ med.Med.id }}">
+                    {{ med.Med.name }}
                 </a> | {{ med.instructions }}
             </li>
         {% endfor %}

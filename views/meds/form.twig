@@ -1,9 +1,10 @@
 <form action="/meds/{{ med ? med.id ~ 'update' : 'create' }}" method="post">
+    <input type="hidden" id="visit_id" name="visit_id" value="{{ visit.id }}">
     <div>
-        <input type="text" name="meds" list="meds" id="meds" required placeholder="Medicine">
+        <input type="text" name="meds" list="allMeds" required placeholder="Medicine">
     </div>
-    <datalist id="meds">
-        {% for medicine in meds %}
+    <datalist id="allMeds">
+        {% for medicine in allMeds %}
             <option value="{{ medicine.name }}">
         {% endfor %}
     </datalist>

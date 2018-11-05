@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
     models.Visit.belongsToMany(models.Med, {through: models.VisitMed});
+    models.Visit.hasMany(models.VisitMed);
   };
   return Visit;
 };

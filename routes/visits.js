@@ -5,21 +5,29 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  req.db.Visit.findAll({
-    include: [
-      { model: req.db.Doctor },
-      { model: req.db.Patient },
-      { model: req.db.Med }
-    ],
-    where: {id: req.params.id}
-  }).then(result => {
-    let visit = result[0];
+  Promise.all([
+    req.db.Visit.findAll({
+      include: [
+        { model: req.db.Doctor },
+        { model: req.db.Patient },
+        {
+          model: req.db.VisitMed,
+          include: [{
+            model: req.db.Med,
+          }]
+        }
+      ],
+      where: {id: req.params.id}
+    }),
+    req.db.Med.findAll(),
+  ]).then(([visits, meds]) => {
     res.render('visit/view', {
-      title: `visit at ${visit.date}:`,
-      visit: visit,
-      doctor: visit.Doctor,
-      patient: visit.Patient,
-      meds: visit.Meds
+      title: `visit at ${visits[0].date}:`,
+      visit: visits[0],
+      doctor: visits[0].Doctor,
+      patient: visits[0].Patient,
+      visitMeds: visits[0].VisitMeds,
+      allMeds: meds
     });
   });
 });
