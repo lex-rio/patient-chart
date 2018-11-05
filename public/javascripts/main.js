@@ -38,7 +38,7 @@ window.customElements.define('add-button', class extends HTMLElement {
   constructor() {
     super();
     const shadowRoot = this.attachShadow({mode: 'open'});
-    let color = this.getAttribute('color') || '#ffdddd';
+    let color = this.getAttribute('color') || 'tomato';
     let style = document.createElement('style');
     let el = document.createElement('div');
     el.innerHTML = '<span>+</span>';
@@ -47,9 +47,9 @@ window.customElements.define('add-button', class extends HTMLElement {
     style.textContent = `
       span {
           display: block;
-          border: 2px solid ${color};
+          background-color: ${color};
           border-radius: 35px;
-          color: tomato;
+          color: white;
           font-size: 56px;
           text-align: center;
           margin: 0 auto;
