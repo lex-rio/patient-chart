@@ -12,7 +12,7 @@ describe('models/visit', function () {
     this.Patient = require('../../models').Patient;
     this.Visit = require('../../models').Visit;
     this.Doctor = require('../../models').Doctor;
-    this.Meds = require('../../models').Meds;
+    this.Med = require('../../models').Med;
   });
 
   describe('create', function () {
