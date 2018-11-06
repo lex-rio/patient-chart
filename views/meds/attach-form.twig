@@ -1,0 +1,16 @@
+<form action="/meds/attach" method="post">
+    <input type="hidden" id="visit_id" name="visit_id" value="{{ visit.id }}">
+    <div>
+        <input type="text" name="meds" list="allMeds" required placeholder="Medicine">
+    </div>
+    <datalist id="allMeds">
+        {% for medicine in allMeds %}
+        <option value="{{ medicine.name }}">
+            {% endfor %}
+    </datalist>
+    <div>
+        <input type="text" name="instructions" id="instructions" placeholder="Instructions">
+    </div>
+
+    <input type="submit" value="ADD">
+</form>

@@ -1,18 +1,17 @@
 let router = require('express').Router();
 
-router.get('/', (req, res) => {
-  req.db.Doctor.findAll({
+router.get('/', async (req, res, next) => {
+  let doctors = await req.db.Doctor.findAll({
     attributes: ['id', 'name', 'phone', 'specialization']
-  }).then(result => {
-    res.render('doctor/index', {
-      title: 'Doctors list:',
-      doctors: result
-    });
-  }).catch(err => res.status(400).send(err));
+  });
+  res.render('doctor/index', {
+    title: 'Doctors list:',
+    doctors: doctors
+  });
 });
 
-router.get('/:id', (req, res) => {
-  req.db.Doctor.findAll({
+router.get('/:id', async (req, res, next) => {
+  let [doctor] = await req.db.Doctor.findAll({
     include: [{
       model: req.db.Visit,
       as: 'Visits',
@@ -21,34 +20,27 @@ router.get('/:id', (req, res) => {
       }]
     }],
     where: {id: req.params.id}
-  }).then(result => {
-    res.render('doctor/view', {
-      title: `Doctor details:`,
-      doctor: result[0],
-      visits: result[0].Visits
-    });
-  }).catch(err => res.status(400).send(err));
+  }).catch(next);
+
+  res.render('doctor/view', {
+    title: `Doctor details:`,
+    doctor: doctor,
+    visits: doctor.Visits
+  });
 });
 
-router.post('/create', (req, res) => {
-  req.db.Doctor.create({
-    name: req.body.fio,
-    phone: req.body.phone,
-    specialization: req.body.specialization,
-  }).then(doctor => {
-    res.redirect(`/doctors/${doctor.null}`);
-  }).catch(err => res.status(400).send(err));
+router.post('/create', (req, res, next) => {
+  req.db.Doctor.create(req.body)
+    .then(doctor => res.redirect(`/doctors/${doctor.null}`))
+    .catch(next);
 });
 
-router.post('/:id/update', (req, res) => {
-  req.db.Doctor.findByPk(req.params.id).then(doctor => {
-    doctor.name = req.body.fio;
-    doctor.phone = req.body.phone;
-    doctor.specialization = req.body.specialization;
-    doctor.save().then(_ => {
-      res.redirect(`/doctors/${req.params.id}`);
-    })
-  }).catch(err => res.status(400).send(err));
+router.post('/:id/update', async (req, res, next) => {
+  let doctor = await req.db.Doctor.findByPk(req.params.id)
+    .catch(next);
+
+  await doctor.update(req.body);
+  res.redirect(`/doctors/${doctor.id}`);
 });
 
 module.exports = router;
