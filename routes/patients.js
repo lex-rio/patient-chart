@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
       title: 'Patients list:',
       patients: result
     });
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.get('/:id', (req, res) => {
@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
       patient: patient,
       visits: patient.Visits
     });
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.post('/create', (req, res) => {
@@ -38,7 +38,7 @@ router.post('/create', (req, res) => {
     birthday: new Date(req.body.birth)
   }).then(patient => {
     res.redirect(`/patients/${patient.null}`);
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.post('/:id/update', (req, res) => {
@@ -49,7 +49,7 @@ router.post('/:id/update', (req, res) => {
     patient.save().then(_ => {
       res.redirect(`/patients/${req.params.id}`);
     })
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 module.exports = router;

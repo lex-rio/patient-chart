@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
       title: 'Doctors list:',
       doctors: result
     });
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.get('/:id', (req, res) => {
@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
       doctor: result[0],
       visits: result[0].Visits
     });
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.post('/create', (req, res) => {
@@ -37,7 +37,7 @@ router.post('/create', (req, res) => {
     specialization: req.body.specialization,
   }).then(doctor => {
     res.redirect(`/doctors/${doctor.null}`);
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.post('/:id/update', (req, res) => {
@@ -48,7 +48,7 @@ router.post('/:id/update', (req, res) => {
     doctor.save().then(_ => {
       res.redirect(`/doctors/${req.params.id}`);
     })
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 module.exports = router;
