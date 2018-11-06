@@ -5,7 +5,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       primaryKey: true
     },
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     atx: DataTypes.STRING,
     dosage_form: DataTypes.STRING,
     description: DataTypes.STRING,

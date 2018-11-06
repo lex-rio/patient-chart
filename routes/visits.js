@@ -1,11 +1,11 @@
 let router = require('express').Router();
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   res.send('respond with a resource');
 });
 
-router.get('/:id', (req, res) => {
-  Promise.all([
+router.get('/:id', async (req, res, next) => {
+  let [[visit], meds] = await Promise.all([
     req.db.Visit.findAll({
       include: [
         { model: req.db.Doctor },
@@ -20,41 +20,38 @@ router.get('/:id', (req, res) => {
       where: {id: req.params.id}
     }),
     req.db.Med.findAll(),
-  ]).then(([visits, meds]) => {
-    res.render('visit/view', {
-      title: `visit at ${visits[0].date}:`,
-      visit: visits[0],
-      doctor: visits[0].Doctor,
-      patient: visits[0].Patient,
-      visitMeds: visits[0].VisitMeds,
-      allMeds: meds
-    });
-  }).catch(err => res.status(400).send(err));
+  ]).catch(next);
+
+  res.render('visit/view', {
+    title: `visit at ${visit.date}:`,
+    visit: visit,
+    doctor: visit.Doctor,
+    patient: visit.Patient,
+    visitMeds: visit.VisitMeds,
+    allMeds: meds
+  });
 });
 
-router.post('/create', (req, res) => {
-  Promise.all([
-    req.db.Doctor.findOne({ where: { name: req.body.doctor } }),
-    req.db.Patient.findOne({ where: { name: req.body.patient } })
-  ]).then(([doctor, patient]) => {
-    if (!doctor.id) {
-      // create doctor
-    }
-    if (!patient.id) {
-      // create patient
-    }
-    req.db.Visit.create({
-      diagnosis: req.body.diagnosis,
-      DoctorId: doctor.id,
-      PatientId: patient.id,
-      date: new Date(req.body.datetime)
-    }).then(visit => {
-      res.redirect(`/visits/${visit.null}`);
-    });
-  }).catch(err => res.status(400).send(err));
+router.post('/create', async (req, res, next) => {
+  let [doctor, patient] = await Promise.all([
+    req.db.Doctor.findOne({where: {name: req.body.doctor}}),
+    req.db.Patient.findOne({where: {name: req.body.patient}})
+  ]).catch(next);
+
+  doctor = doctor || await req.db.Doctor.create({name: req.body.doctor});
+  patient = patient || await req.db.Patient.create({name: req.body.patient});
+
+  let visit = await req.db.Visit.create({
+    diagnosis: req.body.diagnosis,
+    DoctorId: doctor.id || doctor.null,
+    PatientId: patient.id || patient.null,
+    date: new Date(req.body.datetime)
+  }).catch(next);
+
+  res.redirect(`/visits/${visit.null}`);
 });
 
-router.post('/:id/update', (req, res) => {
+router.post('/:id/update', (req, res, next) => {
   req.db.Visit.findByPk(req.params.id).then(visit => {
     visit.diagnosis = req.body.diagnosis;
     visit.photo = req.body.photo;

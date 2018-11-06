@@ -1,6 +1,6 @@
 <form action="/doctors/{{ doctor ? doctor.id ~ '/update' : 'create' }}" method="post">
     <div>
-        <input type="text" name="fio" required="required" id="fio" placeholder="FIO" value="{{ doctor.name }}">
+        <input type="text" name="name" required="required" id="fio" placeholder="FIO" value="{{ doctor.name }}">
     </div>
     <div>
         <input type="tel" name="phone" id="phone" placeholder="Cellphone number" value="{{ doctor.phone }}">

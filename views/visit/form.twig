@@ -1,4 +1,4 @@
-<form action="/visits/{{ visit ? visit.id ~ 'update' : 'create' }}" method="post">
+<form action="/visits/{{ visit ? visit.id ~ '/update' : 'create' }}" method="post">
     <div>
         <input type="datetime-local" name="datetime" id="datetime" placeholder="Visit date and time">
     </div>
