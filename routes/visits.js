@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
       visitMeds: visits[0].VisitMeds,
       allMeds: meds
     });
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.post('/create', (req, res) => {
@@ -51,7 +51,7 @@ router.post('/create', (req, res) => {
     }).then(visit => {
       res.redirect(`/visits/${visit.null}`);
     });
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.post('/:id/update', (req, res) => {
@@ -62,7 +62,7 @@ router.post('/:id/update', (req, res) => {
     visit.save().then(_ => {
       res.redirect(`/patients/${req.params.id}`);
     })
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 module.exports = router;

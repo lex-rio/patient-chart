@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
       title: 'Medicines list:',
       meds: result
     });
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.get('/:id', (req, res) => {
@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
       title: `${result.name} details:`,
       med: result
     });
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 router.post('/create', (req, res) => {
@@ -31,7 +31,7 @@ router.post('/create', (req, res) => {
     }).then(_ => {
       res.redirect(`/visits/${req.body.visit_id}`);
     });
-  });
+  }).catch(err => res.status(400).send(err));
 });
 
 module.exports = router;
