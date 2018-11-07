@@ -4,32 +4,49 @@ var expect = require('expect.js');
 
 describe('models/visit', function () {
 
-  before(function() {
-    return require('../../models').sequelize.sync();
-  });
+  let visitId, patient, doctor;
 
-  beforeEach(function() {
+  before(async function() {
     this.Patient = require('../../models').Patient;
     this.Visit = require('../../models').Visit;
     this.Doctor = require('../../models').Doctor;
-    this.Med = require('../../models').Med;
+    let db = require('../../models').sequelize.sync();
+    [patient, doctor] = await Promise.all([
+      this.Patient.create({name: 'johndoe'}),
+      this.Doctor.create({name: 'doctor1'})
+    ]);
+    return db;
   });
 
+  beforeEach(async function() {});
+
   describe('create', function () {
-    it('creates a visit', function () {
-      return Promise.all([
-        this.Patient.create({name: 'johndoe'}),
-        this.Doctor.create({name: 'doctor1'})
-      ])
-        .then(([patient, doctor]) =>
-          this.Visit.create({
-            DoctorId: doctor.id,
-            PatientId: patient.id,
-            diagnosis: 'autism'
-          }).then(function (visit) {
-            expect(visit.diagnosis).to.equal('autism');
-          })
-        );
+    it('creates a visit', async function () {
+      let visit = await this.Visit.create({
+        DoctorId: doctor.id,
+        PatientId: patient.id,
+        diagnosis: 'autism'
+      });
+      visitId = visit.id;
+      expect(visit.diagnosis).to.be('autism');
     });
   });
+
+  describe('update', function () {
+    it('update a visit', async function () {
+      let visit = await this.Visit.findByPk(visitId);
+      await visit.update({diagnosis: 'meteorism'});
+      visit = await this.Visit.findByPk(visitId);
+      expect(visit.diagnosis).to.be('meteorism');
+    });
+  });
+
+  describe('delete', function () {
+    it('deletes a visit', async function () {
+      let visit = await this.Visit.findByPk(visitId);
+      await visit.destroy();
+      visit = await this.Visit.findByPk(visitId);
+      expect(visit).to.be(null);
+    });
+  })
 });

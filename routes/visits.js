@@ -43,12 +43,12 @@ router.post('/create', async (req, res, next) => {
 
   let visit = await req.db.Visit.create({
     diagnosis: req.body.diagnosis,
-    DoctorId: doctor.id || doctor.null,
-    PatientId: patient.id || patient.null,
+    DoctorId: doctor.id,
+    PatientId: patient.id,
     date: new Date(req.body.datetime)
   }).catch(next);
 
-  res.redirect(`/visits/${visit.null}`);
+  res.redirect(`/visits/${visit.id}`);
 });
 
 router.post('/:id/update', (req, res, next) => {

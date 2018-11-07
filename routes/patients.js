@@ -31,7 +31,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/create', (req, res, next) => {
   req.db.Patient.create(req.body)
-    .then(patient => res.redirect(`/patients/${patient.null}`))
+    .then(patient => res.redirect(`/patients/${patient.id}`))
     .catch(next);
 });
 
