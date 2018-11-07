@@ -1,6 +1,20 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Roboto", Helvetica, Arial, sans-serif;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  font-size: 18px;
+  list-style-type: none;
+  height: 48px;
+  border-bottom: 1px dashed rgba(0,0,0, 0.42);
+  display: flex;
+  align-items: center;
 }
 
 a {
@@ -9,10 +23,6 @@ a {
 
 .homeopathy {
   color: red;
-}
-
-li {
-  display: block;
 }
 
 form *:invalid {

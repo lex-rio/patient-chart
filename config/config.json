@@ -7,6 +7,10 @@
     "dialect": "sqlite",
     "storage": "./db.test.sqlite"
   },
+  "staging": {
+    "dialect": "sqlite",
+    "storage": "./db.sqlite"
+  },
   "production": {
     "username": "root",
     "password": null,
