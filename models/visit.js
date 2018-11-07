@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const Visit = sequelize.define('Visit', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     date: DataTypes.DATE,
     diagnosis: DataTypes.STRING,

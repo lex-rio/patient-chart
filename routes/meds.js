@@ -28,7 +28,7 @@ router.post('/attach', async (req, res, next) => {
   med = med || await req.db.Med.create({ name: req.body.meds });
 
   await req.db.VisitMed.create({
-    MedId: med.id || med.null,
+    MedId: med.id,
     VisitId: visit.id,
     instructions: req.body.instructions
   }).catch(next);
@@ -37,7 +37,7 @@ router.post('/attach', async (req, res, next) => {
 
 router.post('/create', (req, res, next) => {
   req.db.Med.create(req.body)
-    .then(med => res.redirect(`/meds/${med.null}`))
+    .then(med => res.redirect(`/meds/${med.id}`))
     .catch(next);
 });
 
