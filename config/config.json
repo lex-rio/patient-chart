@@ -5,7 +5,7 @@
   },
   "test": {
     "dialect": "sqlite",
-    "storage": ":memory:"
+    "storage": "./db.test.sqlite"
   },
   "production": {
     "username": "root",

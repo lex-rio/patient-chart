@@ -1,0 +1,17 @@
+<form action="/meds/{{ med ? med.id ~ '/update' : 'create' }}" method="post">
+    <input type="hidden" id="visit_id" name="visit_id" value="{{ visit.id }}">
+    <div>
+        <input type="text" name="name" value="{{ med.name }}" required placeholder="Medicine">
+    </div>
+    <div>
+        <input type="text" name="atx" value="{{ med.atx }}" placeholder="atx">
+    </div>
+    <div>
+        <input type="text" name="dosage_form" value="{{ med.dosage_form }}" placeholder="dosage_form">
+    </div>
+    <div>
+        <textarea name="description" id="description" cols="30" rows="10" placeholder="description">{{ med.description }}</textarea>
+    </div>
+
+    <input type="submit" value="{{ med ? 'UPDATE' : 'CREATE' }}">
+</form>

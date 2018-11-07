@@ -1,48 +1,65 @@
-let express = require('express');
-let router = express.Router();
-
-let dosageForms = {
-  1: 'таблетки',
-  2: 'свечи',
-  3: 'суспензия',
-  4: 'порошок',
-  5: 'жидкость',
-  6: 'спрей'
-};
+let router = require('express').Router();
 
 router.get('/', (req, res, next) => {
   res.send('respond with a resource');
 });
 
-router.get('/:id', (req, res, next) => {
-  req.db.Visit.findById(req.params.id).then(result => {
-    res.render('visit/view', {
-      title: `visit at ${result.date}:`,
-      visit: result,
-      meds: result.meds
-    });
+router.get('/:id', async (req, res, next) => {
+  let [[visit], meds] = await Promise.all([
+    req.db.Visit.findAll({
+      include: [
+        { model: req.db.Doctor },
+        { model: req.db.Patient },
+        {
+          model: req.db.VisitMed,
+          include: [{
+            model: req.db.Med,
+          }]
+        }
+      ],
+      where: {id: req.params.id}
+    }),
+    req.db.Med.findAll(),
+  ]).catch(next);
+
+  res.render('visit/view', {
+    title: `visit at ${visit.date}:`,
+    visit: visit,
+    doctor: visit.Doctor,
+    patient: visit.Patient,
+    visitMeds: visit.VisitMeds,
+    allMeds: meds
   });
 });
 
-router.post('/create', (req, res) => {
-  Promise.all([
-    req.db.Doctor.findOne({ where: { name: req.body.doctor } }),
-    req.db.Patient.findOne({ where: { name: req.body.patient } })
-  ]).then(([doctor, patient]) => {
-    if (!doctor.id) {
-      // create doctor
-    }
-    if (!patient.id) {
-      // create patient
-    }
-    req.db.Visit.create({
-      diagnosis: req.body.diagnosis,
-      DoctorId: doctor.id,
-      PatientId: patient.id,
-    }).then(_ => {
-      res.redirect('/');
-    });
-  });
+router.post('/create', async (req, res, next) => {
+  let [doctor, patient] = await Promise.all([
+    req.db.Doctor.findOne({where: {name: req.body.doctor}}),
+    req.db.Patient.findOne({where: {name: req.body.patient}})
+  ]).catch(next);
+
+  doctor = doctor || await req.db.Doctor.create({name: req.body.doctor});
+  patient = patient || await req.db.Patient.create({name: req.body.patient});
+
+  let visit = await req.db.Visit.create({
+    diagnosis: req.body.diagnosis,
+    DoctorId: doctor.id,
+    PatientId: patient.id,
+    date: new Date(req.body.datetime)
+  }).catch(next);
+
+  res.redirect(`/visits/${visit.id}`);
+});
+
+router.post('/:id/update', (req, res, next) => {
+  req.db.Visit.findByPk(req.params.id).then(visit => {
+    visit.diagnosis = req.body.diagnosis;
+    visit.photo = req.body.photo;
+    visit.birthday = req.body.birthday;
+    visit.save().then(_ => {
+      res.redirect(`/patients/${req.params.id}`);
+    })
+  }).catch(err => res.status(400).send(err));
 });
 
 module.exports = router;

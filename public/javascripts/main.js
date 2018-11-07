@@ -34,28 +34,45 @@ window.customElements.define('patient-chart', class extends HTMLElement {
   }
 });
 
-window.customElements.define('add-button', class extends HTMLElement {
+window.customElements.define('custom-button', class extends HTMLElement {
   constructor() {
     super();
     const shadowRoot = this.attachShadow({mode: 'open'});
-    let color = this.getAttribute('color') || 'red';
+    let func = this.getAttribute('func') || 'add';
+    let color = this.getAttribute('color') || 'tomato';
     let style = document.createElement('style');
     let el = document.createElement('div');
-    el.addEventListener('click', this.handleClick);
-    el.textContent = 'ADD';
-    style.textContent = `div {
-              border-radius: 30px;
-              border: none;
-              background-color: ${color};
-              font-size: 56px;
-              text-align: center;
-          }`;
+    let functions = {
+      'add': '+',
+      'edit': '<div>&#9998;</div>'
+    };
+    el.innerHTML = `<span>${functions[func]}</span>`;
+    el.addEventListener('click', _ => document.getElementById(`form-${func}`).showModal());
+
+    style.textContent = `
+      span {
+          display: block;
+          position: fixed;
+          ${(func === 'edit') ? 'left' : 'right'}: 20px;
+          bottom: 20px;
+          background-color: ${color};
+          border-radius: 35px;
+          text-align: center;
+          color: white;
+          font-size: 56px;
+          text-align: center;
+          padding: 0px 8px;
+          width: 50px;
+          cursor: pointer;
+          
+      }
+      span>div {
+          transform: rotateZ(90deg);
+          font-size: 49px;
+          margin-right: -5px;
+      }`;
 
     shadowRoot.appendChild(style);
     shadowRoot.appendChild(el);
-  }
-
-  handleClick(e) {
-    console.log(e);
   }
 });

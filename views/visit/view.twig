@@ -4,20 +4,31 @@
     <h1>{{ title }}</h1>
 
     <div>
-        <a href="/doctors/{{ visit.DoctorId }}">{{ visit.DoctorId }}</a> visited
-        <a href="/patients/{{ visit.PatientId }}">{{ visit.PatientId }}</a>
+        <a href="/doctors/{{ visit.DoctorId }}">{{ visit.Doctor.name }}</a> visited
+        <a href="/patients/{{ visit.PatientId }}">{{ visit.Patient.name }}</a>
     </div>
     <div>
         diagnosis: <b>{{ visit.diagnosis }}</b>
     </div>
 
     <ul>
-        {% for med in meds %}
+        {% for med in visitMeds %}
             <li>
-                <a class="{{ med.is_homeopathy ? 'homeopathy' : '' }}" href="/meds/{{ med.meds_id }}">
-                    {{ med.meds_name }}
+                <a class="{{ med.Med.is_homeopathy ? 'homeopathy' : '' }}" href="/meds/{{ med.Med.id }}">
+                    {{ med.Med.name }}
                 </a> | {{ med.instructions }}
             </li>
         {% endfor %}
     </ul>
+
+    <custom-button color="red"></custom-button>
+    <custom-button color="brown" func="edit"></custom-button>
+
+    <dialog id="form-add">
+        {% include 'meds/attach-form.twig' %}
+    </dialog>
+    <dialog id="form-edit">
+        {% include 'visit/form.twig' %}
+    </dialog>
+
 {% endblock %}
