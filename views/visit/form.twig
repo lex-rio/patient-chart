@@ -1,6 +1,6 @@
 <form action="/visits/{{ visit ? visit.id ~ '/update' : 'create' }}" method="post">
     <div>
-        <input type="datetime-local" name="datetime" id="datetime" placeholder="Visit date and time">
+        <input type="datetime-local" name="date" id="datetime" placeholder="Visit date and time" value="{{ visit.date|date("Y-m-d\TH:m") }}">
     </div>
     <div>
         <input type="text" name="doctor" list="doctors" id="doctor" required placeholder="Doctor" value="{{ doctor.name }}">

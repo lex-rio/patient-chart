@@ -36,7 +36,7 @@ router.post('/create', (req, res, next) => {
 });
 
 router.post('/:id/update', async (req, res, next) => {
-  let patient = await req.db.Doctor.findByPk(req.params.id)
+  let patient = await req.db.Patient.findByPk(req.params.id)
     .catch(next);
   await patient.update(req.body)
     .catch(next);

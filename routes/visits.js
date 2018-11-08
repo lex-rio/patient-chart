@@ -56,7 +56,7 @@ router.post('/:id/update', async (req, res, next) => {
     .catch(next);
   await visit.update(req.body)
     .catch(next);
-  res.redirect(`/patients/${visit.id}`);
+  res.redirect(`/visits/${visit.id}`);
 });
 
 module.exports = router;
