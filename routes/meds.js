@@ -11,11 +11,22 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
-  let med = await req.db.Med.findByPk(req.params.id)
-    .catch(next);
+  let [med] = await req.db.Med.findAll({
+    include: [{
+      model: req.db.Visit,
+      as: 'Visits',
+      include: [
+        {model: req.db.Doctor},
+        {model: req.db.Patient}
+      ]
+    }],
+    where: {id: req.params.id}
+  }).catch(next);
+
   res.render('meds/view', {
     title: `${med.name} details:`,
-    med: med
+    med: med,
+    visits: med.Visits
   });
 });
 
@@ -44,8 +55,8 @@ router.post('/create', (req, res, next) => {
 router.post('/:id/update', async (req, res, next) => {
   let med = await req.db.Med.findByPk(req.params.id)
     .catch(next);
-
-  await med.update(req.body);
+  await med.update(req.body)
+    .catch(next);
   res.redirect(`/meds/${med.id}`);
 });
 

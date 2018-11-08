@@ -38,8 +38,8 @@ router.post('/create', (req, res, next) => {
 router.post('/:id/update', async (req, res, next) => {
   let doctor = await req.db.Doctor.findByPk(req.params.id)
     .catch(next);
-
-  await doctor.update(req.body);
+  await doctor.update(req.body)
+    .catch(next);
   res.redirect(`/doctors/${doctor.id}`);
 });
 

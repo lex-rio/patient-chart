@@ -38,10 +38,9 @@ router.post('/create', (req, res, next) => {
 router.post('/:id/update', async (req, res, next) => {
   let patient = await req.db.Doctor.findByPk(req.params.id)
     .catch(next);
-
-  req.db.Patient.update(req.body)
-    .then(patient => res.redirect(`/patients/${patient.id}`))
+  await patient.update(req.body)
     .catch(next);
+  res.redirect(`/patients/${patient.id}`);
 });
 
 module.exports = router;

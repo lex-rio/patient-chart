@@ -51,15 +51,12 @@ router.post('/create', async (req, res, next) => {
   res.redirect(`/visits/${visit.id}`);
 });
 
-router.post('/:id/update', (req, res, next) => {
-  req.db.Visit.findByPk(req.params.id).then(visit => {
-    visit.diagnosis = req.body.diagnosis;
-    visit.photo = req.body.photo;
-    visit.birthday = req.body.birthday;
-    visit.save().then(_ => {
-      res.redirect(`/patients/${req.params.id}`);
-    })
-  }).catch(err => res.status(400).send(err));
+router.post('/:id/update', async (req, res, next) => {
+  let visit = await req.db.Visit.findByPk(req.params.id)
+    .catch(next);
+  await visit.update(req.body)
+    .catch(next);
+  res.redirect(`/patients/${visit.id}`);
 });
 
 module.exports = router;
