@@ -6,7 +6,7 @@
         <input type="URL" name="photo" id="photo" placeholder="URL photo" value="{{ patient.photo }}">
     </div>
     <div>
-        <input type="datetime-local" name="birthday" id="birthday" placeholder="date of birth" value="{{ patient.birthday|date("Y-m-dTH:m") }}">
+        <input type="datetime-local" name="birthday" id="birthday" placeholder="date of birth" value="{{ patient.birthday|date("Y-m-d\TH:m") }}">
     </div>
     <input type="submit" value="{{ patient ? 'UPDATE' : 'CREATE' }}">
 </form>

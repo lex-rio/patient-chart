@@ -3,7 +3,8 @@
 {% block body %}
     <h1>{{title}}</h1>
 
-    {{ patient.name }}
+    <p>Name: {{ patient.name }}</p>
+    <p>Date of birth: {{ patient.birthday }}</p>
     <img src="{{ patient.photo }}" alt="">
 
     <ul>
