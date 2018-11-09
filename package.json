@@ -35,8 +35,9 @@
     "express": "~4.16.0",
     "http-errors": "~1.7.1",
     "morgan": "~1.9.0",
+    "pg": "^7.6.1",
     "sequelize": "^4.41.0",
-    "sqlite3": "^4.0.3",
+    "sequelize-cli": "^5.3.0",
     "twig": "^1.12.0"
   },
   "devDependencies": {
@@ -44,7 +45,6 @@
     "expect.js": "^0.3.1",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.5",
-    "sequelize-cli": "^5.3.0",
     "supertest": "^3.3.0"
   }
 }
