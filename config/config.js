@@ -1,4 +1,4 @@
-{
+module.exports = {
   "development": {
     "dialect": "sqlite",
     "storage": "./db.development.sqlite"
@@ -12,10 +12,6 @@
     "storage": "./db.sqlite"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "patient",
-    "host": "127.0.0.1",
-    "dialect": "sqlite"
+    "use_env_variable": "DATABASE_URL"
   }
-}
+};
